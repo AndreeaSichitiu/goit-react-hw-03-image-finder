@@ -7,7 +7,7 @@ export default function Modal({data, onClose}) {
   
   
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = event => {
       if (event.key === "Escape") {
         onClose();
       }
@@ -19,12 +19,11 @@ export default function Modal({data, onClose}) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
-  console.log(data);
-
+  
   return (
     <div className={style.Overlay} onClick={onClose}>
   <div className={style.Modal}>
-    <img src={data} alt={data} />
+    <img src={data} alt="" />
   </div>
 </div>
   )

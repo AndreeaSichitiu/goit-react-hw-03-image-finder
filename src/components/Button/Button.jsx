@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export default function Button({onLoadMore}) {
   return (
-    <button type="button" className={style.Button} onClick={onLoadMore}>Mai adauga 12</button>
+    <button type="button" className={style.Button} onClick={onLoadMore}>Load more</button>
   )
 }
 
