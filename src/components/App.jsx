@@ -16,7 +16,7 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleSubmit = async query => {
+  const handleFormSubmit = async query => {
     setSearchQuery(query);
     if (query === '') {
       Notify.info('You cannot search by empty field, try again.', {
@@ -26,20 +26,26 @@ export const App = () => {
     } else {
       try {
         const response = await resourseApi.search(query);
-        if (response.data.totalHits === 0)  {Notify.info('Sorry, there are no images matching your search. Please try again.', {
-          position: 'center-center',
-        })} else {
-        Notify.info(`We found ${response.data.totalHits} images.`);
-        setImages(response.data.hits); }
-      } catch (error) {         
-          console.error('Error Status:', error.response.status);      
+        if (response.data.totalHits === 0) {
+          Notify.info(
+            'Sorry, there are no images matching your search. Please try again.',
+            {
+              position: 'center-center',
+            }
+          );
+        } else {
+          Notify.info(`We found ${response.data.totalHits} images.`);
+        }
+        setImages(response.data.hits);
+      } catch (error) {
+        console.error('Error Status:', error.response.status);
       }
     }
   };
 
   const handleLoadMore = async () => {
     setIsLoading(true);
-    
+
     try {
       const response = await resourseApi.search(searchQuery, page + 1);
       setImages(prevImages => [...prevImages, ...response.data.hits]);
@@ -62,13 +68,15 @@ export const App = () => {
 
   return (
     <div className={style.App}>
-      <Searchbar onSubmit={handleSubmit} />
+      <Searchbar onSubmit={handleFormSubmit} />
 
       <ImageGallery images={images} onImageClick={handleImageClick} />
 
       {isLoading && <Loader />}
 
-      {images.length > 0 && !isLoading && <Button onLoadMore={handleLoadMore} />}
+      {images.length > 0 && !isLoading && (
+        <Button onLoadMore={handleLoadMore} />
+      )}
 
       {selectedImage && (
         <Modal data={selectedImage.largeImageURL} onClose={closeModal} />
